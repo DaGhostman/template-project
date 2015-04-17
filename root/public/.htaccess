@@ -1,0 +1,9 @@
+RewriteEngine On
+# Send the URI to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+php_flag xdebug.remote_enable on
+php_flag xdebug.remote_connect_back on
+php_value xdebug.idekey "vagrant"
