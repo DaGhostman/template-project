@@ -80,6 +80,66 @@ Vagrant.configure(2) do |config|
     cd
     echo "Finished installing PHP5 components\n\r\n\r"
 
+    echo "Downloading Development Tool binaries"
+    cd /vagrant/bin
+
+
+    if [ -f phing ]; then
+      echo "\tUpdating Phing"
+      rm phing
+    else
+      echo "\tDownloading Phing"
+    fi
+    wget http://www.phing.info/get/phing-latest.phar > /dev/null 2>&1
+    mv phing-latest.phar phing && chmod +x phing
+
+    if [ -f codecept ]; then
+      echo "\tUpdating Codeception"
+      rm codecept
+    else
+      echo "\tDownloading Codeception"
+    fi
+    wget http://codeception.com/codecept.phar > /dev/null 2>&1
+    mv codecept.phar codecept && chmod +x codecept
+
+    if [ -f phpunit ]; then
+     echo "\tUpdating PHPUnit"
+     rm phpunit
+    else
+      echo "\tDownloading PHPUnit"
+    fi
+    wget https://phar.phpunit.de/phpunit.phar > /dev/null 2>&1
+    mv phpunit.phar phpunit && chmod +x phpunit
+
+    if [ -f phpcs ]; then
+      echo "\tUpdating PHP Code Sniffer"
+      rm phpcs
+    else
+      echo "\tDownloading PHP Code Sniffer"
+    fi
+    curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar > /dev/null 2>&1
+    mv phpcs.phar phpcs && chmod +x phpcs
+
+    if [ -f phpcbf ]; then
+      echo "\tUpdating PHP Code Beautifier and Fixer"
+      rm phpcbf
+    else
+      echo "\tDownloading PHP Code Beautifier and Fixer"
+    fi
+    echo "\tDownloading PHP "
+    curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar > /dev/null 2>&1
+    mv phpcbf.phar phpcbf && chmod +x phpcbf
+
+
+    if [ -f phpmd ]; then
+      echo "\tUpdating PHP Mess Detector"
+      rm phpmd
+    else
+      echo "\tDownloading PHP Mess Detector"
+    fi
+    wget http://static.phpmd.org/php/latest/phpmd.phar > /dev/null 2>&1
+    mv phpmd.phar phpmd && chmod +x phpmd
+
 
     echo "Configuring Apache2\n\r"
     echo "\tStopping service\n\r"
@@ -87,6 +147,11 @@ Vagrant.configure(2) do |config|
     echo "\tCopying modified default apache vhost"
     sudo rm /etc/apache2/sites-available/000-default.conf
     sudo cp /vagrant/bootstrap/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+
+
+    echo "\tCopying modified 'apache2.conf' to allow usage of .htaccess"
+    sudo rm /etc/apache2/apache2.conf
+    sudo cp /vagrant/bootstrap/apache/apache2.conf /etc/apache2/apache2.conf
 
     echo "\tCopying modified default ssl apache vhost\n\r"
     sudo rm /etc/apache2/sites-available/default-ssl.conf
@@ -115,7 +180,7 @@ Vagrant.configure(2) do |config|
         cd /etc/ssl/certs && sudo wget http://curl.haxx.se/ca/cacert.pem > /dev/null 2>&1 && cd
     fi
     echo "Done\n\r\n\r"
-    sudo apt-get upgrade -y > /dev/null
+
     if [ ! -f /vagrant/bootstrap/custom.sh ]; then
         echo "\tCreating bash script for user commands in 'bootstrap/custom.sh\n\r"
         touch /vagrant/bootstrap/custom.sh

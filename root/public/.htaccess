@@ -4,6 +4,14 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
 
+# Enable IDE debugging
 php_flag xdebug.remote_enable on
 php_flag xdebug.remote_connect_back on
 php_value xdebug.idekey "vagrant"
+
+# Enable script profiling
+php_flag xdebug.profiler_enable off
+php_flag xdebug.profiler_enable_trigger on
+php_flag xdebug.profiler_append off
+php_value xdebug.profiler_output_dir "/vagrant/data/code/profiling/"
+php_value xdebug.profiler_output_name "xdebug.%R.%t.profile"
