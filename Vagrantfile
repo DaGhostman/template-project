@@ -12,7 +12,10 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 443, host: 8443
   config.vm.network "private_network", ip: "192.168.33.10"
 
-  config.vm.synced_folder "./root", "/var/www"
+  config.vm.synced_folder "./root", "/var/www", id: "vagrant-root",
+	owner: "vagrant",
+	group: "www-data",
+	mount_options: ["dmode=775,fmode=664"]
 
   config.vm.provider "virtualbox" do |vb|
     #vb.gui = true #Show VM GUI on startup
