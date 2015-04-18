@@ -1,5 +1,5 @@
 APACHE=$(type apache2 >/dev/null 2>&1 && echo 1 || echo 0)
-if [ "$APACHE" == 1 ]; then
+if [ "$APACHE" != 0 ]; then
     if diff /vagrant/bootstrap/apache/000-default.conf /etc/apache2/sites-available/000-default.conf >/dev/null ; then
       echo "000-default.conf up-to-date"
     else
