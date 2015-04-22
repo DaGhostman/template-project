@@ -12,6 +12,9 @@ echo "Installing mysql extension"
 sudo apt-get install php5-mysql -y > /dev/null 2>&1
 echo "Installing mcrypt extension"
 sudo apt-get install php5-mcrypt -y > /dev/null 2>&1
+
+echo "Installing memcached + extension"
+sudo apt-get install memcached php5-memcached -y > /dev/null 2>&1
 else
     echo "PHP already installed. Skiping"
 fi
